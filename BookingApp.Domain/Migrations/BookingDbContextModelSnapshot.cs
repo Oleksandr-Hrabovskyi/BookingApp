@@ -65,27 +65,20 @@ namespace BookingApp.Domain.Migrations
                         .HasColumnType("character varying(15)")
                         .HasColumnName("phone_number");
 
-                    b.Property<int>("RoomId")
-                        .HasColumnType("integer");
+                    b.Property<string>("RoomName")
+                        .IsRequired()
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
+                    b.HasIndex("RoomName");
 
                     b.ToTable("tbl_bookings", "public");
                 });
 
             modelBuilder.Entity("BookingApp.Contracts.Database.Room", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("name");
@@ -100,7 +93,7 @@ namespace BookingApp.Domain.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Name");
 
                     b.ToTable("tbl_rooms", "public");
                 });
@@ -109,7 +102,7 @@ namespace BookingApp.Domain.Migrations
                 {
                     b.HasOne("BookingApp.Contracts.Database.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomId")
+                        .HasForeignKey("RoomName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

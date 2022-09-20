@@ -7,10 +7,6 @@ namespace BookingApp.Contracts.Database;
 public class Room
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("id")]
-    public int Id { get; set; }
-
     [Required]
     [MaxLength(100)]
     [Column("name")]

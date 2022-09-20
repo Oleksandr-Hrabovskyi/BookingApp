@@ -1,5 +1,7 @@
 ﻿using System;
+
 using Microsoft.EntityFrameworkCore.Migrations;
+
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -18,15 +20,13 @@ namespace BookingApp.Domain.Migrations
                 schema: "public",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     type = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     price = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tbl_rooms", x => x.id);
+                    table.PrimaryKey("PK_tbl_rooms", x => x.name);
                 });
 
             migrationBuilder.CreateTable(
@@ -39,7 +39,7 @@ namespace BookingApp.Domain.Migrations
                     first_name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     last_name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
-                    RoomId = table.Column<int>(type: "integer", nullable: false),
+                    RoomName = table.Column<string>(type: "character varying(100)", nullable: false),
                     check_in_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     comment = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
                 },
@@ -47,19 +47,19 @@ namespace BookingApp.Domain.Migrations
                 {
                     table.PrimaryKey("PK_tbl_bookings", x => x.id);
                     table.ForeignKey(
-                        name: "FK_tbl_bookings_tbl_rooms_RoomId",
-                        column: x => x.RoomId,
+                        name: "FK_tbl_bookings_tbl_rooms_RoomName",
+                        column: x => x.RoomName,
                         principalSchema: "public",
                         principalTable: "tbl_rooms",
-                        principalColumn: "id",
+                        principalColumn: "name",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_tbl_bookings_RoomId",
+                name: "IX_tbl_bookings_RoomName",
                 schema: "public",
                 table: "tbl_bookings",
-                column: "RoomId");
+                column: "RoomName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
