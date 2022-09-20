@@ -20,6 +20,12 @@ public class CreateBookingCommandResult
 public class CreateBookingCommandResultHandler : IRequestHandler<CreateBookingCommand, CreateBookingCommandResult>
 {
     private readonly BookingDbContext _dBContext;
+
+    public CreateBookingCommandResultHandler(BookingDbContext dBContext)
+    {
+        _dBContext = dBContext;
+    }
+
     public Task<CreateBookingCommandResult> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
     {
         throw new System.NotImplementedException();
