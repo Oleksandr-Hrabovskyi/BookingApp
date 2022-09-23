@@ -40,7 +40,6 @@ public class Booking
     public DateTime CheckOutDate { get; set; }
 
     [Column("comment")]
-    [Required]
     [MaxLength(500)]
     public string Comment { get; set; }
 }

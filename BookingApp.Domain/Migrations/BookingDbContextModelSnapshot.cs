@@ -42,7 +42,6 @@ namespace BookingApp.Domain.Migrations
                         .HasColumnName("check_in_date");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("comment");

@@ -1,7 +1,5 @@
 ﻿using System;
-
 using Microsoft.EntityFrameworkCore.Migrations;
-
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -41,7 +39,7 @@ namespace BookingApp.Domain.Migrations
                     phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     RoomName = table.Column<string>(type: "character varying(100)", nullable: false),
                     check_in_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    comment = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
+                    comment = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {

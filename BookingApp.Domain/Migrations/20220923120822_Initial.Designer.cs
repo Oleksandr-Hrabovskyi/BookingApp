@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingApp.Domain.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    [Migration("20220920140113_Initial")]
+    [Migration("20220923120822_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,7 +44,6 @@ namespace BookingApp.Domain.Migrations
                         .HasColumnName("check_in_date");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("comment");
