@@ -17,6 +17,7 @@ public class CreateBookingCommand : IRequest<CreateBookingCommandResult>
     public Room Room { get; init; }
     public DateTime CheckInDate { get; init; }
     public DateTime CheckOutDate { get; init; }
+    public string Comment { get; set; }
 }
 
 public class CreateBookingCommandResult
@@ -42,7 +43,8 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
             PhoneNumber = request.PhoneNumber,
             Room = request.Room,
             CheckInDate = request.CheckInDate,
-            CheckOutDate = request.CheckOutDate
+            CheckOutDate = request.CheckOutDate,
+            Comment = request.Comment
         };
         await _dBContext.AddAsync(booking, cancellationToken);
         await _dBContext.SaveChangesAsync(cancellationToken);

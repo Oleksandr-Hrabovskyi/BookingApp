@@ -15,7 +15,7 @@ using Shouldly;
 
 namespace BookingApp.UnitTests.Commands;
 
-public class CreateBookingCommandHandlerTests
+public class CreateBookingCommandHandlerTests : IDisposable
 {
     private readonly BookingDbContext _dbContext;
     private readonly IRequestHandler<CreateBookingCommand, CreateBookingCommandResult> _handler;
@@ -70,8 +70,14 @@ public class CreateBookingCommandHandlerTests
         result.Booking.FirstName.ShouldNotBeNull();
         result.Booking.LastName.ShouldNotBeNull();
         result.Booking.PhoneNumber.ShouldNotBeNull();
-        // result.Booking.CheckInDate.ShouldNotBeNull();
-        // result.Booking.CheckOutDate.ShouldNotBeNull();
+        result.Booking.Room.Name.ShouldNotBeNull();
+        result.Booking.Room.Type.ShouldNotBeNull();
+        result.Booking.Room.Price.ShouldBeGreaterThan(0);
+    }
 
+    public void Dispose()
+    {
+        _dbContext.Database.EnsureDeleted();
+        _dbContext.Dispose();
     }
 }
