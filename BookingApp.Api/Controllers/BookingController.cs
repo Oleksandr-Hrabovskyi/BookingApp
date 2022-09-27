@@ -31,7 +31,8 @@ public class BookingController : ControllerBase
             PhoneNumber = request.PhoneNumber,
             CheckInDate = request.CheckInDate,
             CheckOutDate = request.CheckOutDate,
-            Room = request.Room
+            Room = request.Room,
+            Comment = request.Comment
         };
 
         var result = await _mediator.Send(command, cancellationToken);
