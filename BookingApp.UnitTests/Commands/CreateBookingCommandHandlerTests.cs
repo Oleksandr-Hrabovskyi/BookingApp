@@ -37,7 +37,6 @@ public class CreateBookingCommandHandlerTests
         //Arrange
         var BookingFirstName = Guid.NewGuid().ToString();
         var BookingLastName = Guid.NewGuid().ToString();
-        var BookingPhoneNumber = Guid.NewGuid().ToString();
         var BookingRoom = new Room
         {
             Name = "201",
@@ -51,7 +50,7 @@ public class CreateBookingCommandHandlerTests
         {
             FirstName = BookingFirstName,
             LastName = BookingLastName,
-            PhoneNumber = BookingPhoneNumber,
+            PhoneNumber = "+380991933994",
             Room = BookingRoom,
             CheckInDate = BookingCheckInDate,
             CheckOutDate = BookingCheckOutDate
@@ -62,6 +61,7 @@ public class CreateBookingCommandHandlerTests
 
         //Assert
         result.ShouldNotBeNull();
-        result.BookingId.ShouldBeGreaterThan(0);
+        result.Booking.ShouldNotBeNull();
+        result.Booking.Id.ShouldBeGreaterThan(0);
     }
 }

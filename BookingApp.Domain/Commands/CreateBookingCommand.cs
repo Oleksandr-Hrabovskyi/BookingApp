@@ -21,7 +21,7 @@ public class CreateBookingCommand : IRequest<CreateBookingCommandResult>
 
 public class CreateBookingCommandResult
 {
-    public int BookingId { get; init; }
+    public Booking Booking { get; init; }
 }
 
 public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, CreateBookingCommandResult>
@@ -49,7 +49,7 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
 
         return new CreateBookingCommandResult
         {
-            BookingId = booking.Id
+            Booking = booking
         };
     }
 }
