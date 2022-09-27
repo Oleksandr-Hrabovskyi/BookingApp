@@ -37,11 +37,15 @@ public class CreateBookingCommandHandlerTests
         //Arrange
         var BookingFirstName = Guid.NewGuid().ToString();
         var BookingLastName = Guid.NewGuid().ToString();
+        var BookingPhoneNumber = Guid.NewGuid().ToString();
+        var RoomName = Guid.NewGuid().ToString();
+        var RoomType = Guid.NewGuid().ToString();
+        var RoomPrice = new Random();
         var BookingRoom = new Room
         {
-            Name = "201",
-            Type = "Luxe",
-            Price = 1000
+            Name = RoomName,
+            Type = RoomType,
+            Price = RoomPrice.Next()
         };
         var BookingCheckInDate = new DateTime(2022, 9, 20);
         var BookingCheckOutDate = new DateTime(2022, 9, 21);
@@ -50,7 +54,7 @@ public class CreateBookingCommandHandlerTests
         {
             FirstName = BookingFirstName,
             LastName = BookingLastName,
-            PhoneNumber = "+380991933994",
+            PhoneNumber = BookingPhoneNumber,
             Room = BookingRoom,
             CheckInDate = BookingCheckInDate,
             CheckOutDate = BookingCheckOutDate
@@ -63,5 +67,11 @@ public class CreateBookingCommandHandlerTests
         result.ShouldNotBeNull();
         result.Booking.ShouldNotBeNull();
         result.Booking.Id.ShouldBeGreaterThan(0);
+        result.Booking.FirstName.ShouldNotBeNull();
+        result.Booking.LastName.ShouldNotBeNull();
+        result.Booking.PhoneNumber.ShouldNotBeNull();
+        // result.Booking.CheckInDate.ShouldNotBeNull();
+        // result.Booking.CheckOutDate.ShouldNotBeNull();
+
     }
 }
