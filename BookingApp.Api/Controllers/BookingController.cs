@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,12 +8,10 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Npgsql;
-
 namespace BookingApp.Api.Controllers;
 
 [Route("api/booking")]
-public class BookingController : ControllerBase
+public class BookingController : BaseController
 {
     private readonly IMediator _mediator;
 
@@ -24,10 +21,9 @@ public class BookingController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> CreateBooking([FromBody] CreateBookingRequest request,
-        CancellationToken cancellationToken)
-    {
-        try
+    public Task<IActionResult> CreateBooking([FromBody] CreateBookingRequest request,
+        CancellationToken cancellationToken) =>
+        SaveExecute(async () =>
         {
             var command = new CreateBookingCommand
             {
@@ -46,28 +42,5 @@ public class BookingController : ControllerBase
                 Id = result.Booking.Id
             };
             return Created("http://booking.com", response);
-        }
-        catch (InvalidOperationException ioe) when (ioe.InnerException is NpgsqlException)
-        {
-            var response = new ErrorResponse
-            {
-                Code = ErrorCode.DbFailureError,
-                Message = "DB failure"
-            };
-            return ToActionResult(response);
-        }
-        catch (Exception)
-        {
-            var response = new ErrorResponse
-            {
-                Code = ErrorCode.InternalServerError,
-                Message = "Unhandled error"
-            };
-            return ToActionResult(response);
-        }
-    }
-    private IActionResult ToActionResult(ErrorResponse errorResponse)
-    {
-        return StatusCode((int)errorResponse.Code / 100, errorResponse);
-    }
+        }, cancellationToken);
 }

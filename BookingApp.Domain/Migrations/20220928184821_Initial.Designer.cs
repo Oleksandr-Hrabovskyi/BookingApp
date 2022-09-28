@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingApp.Domain.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    [Migration("20220927182813_Initial")]
+    [Migration("20220928184821_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,26 +64,33 @@ namespace BookingApp.Domain.Migrations
                         .HasColumnType("character varying(15)")
                         .HasColumnName("phone_number");
 
-                    b.Property<string>("RoomName")
-                        .IsRequired()
-                        .HasColumnType("character varying(100)");
+                    b.Property<int>("RoomId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomName");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("tbl_bookings", "public");
                 });
 
             modelBuilder.Entity("BookingApp.Contracts.Database.Room", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("name");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("integer")
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric")
                         .HasColumnName("price");
 
                     b.Property<string>("Type")
@@ -92,7 +99,7 @@ namespace BookingApp.Domain.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("type");
 
-                    b.HasKey("Name");
+                    b.HasKey("Id");
 
                     b.ToTable("tbl_rooms", "public");
                 });
@@ -101,7 +108,7 @@ namespace BookingApp.Domain.Migrations
                 {
                     b.HasOne("BookingApp.Contracts.Database.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomName")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
