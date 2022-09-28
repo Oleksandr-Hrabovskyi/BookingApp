@@ -29,6 +29,7 @@ public class Booking
 
     [Column("room")]
     [Required]
+
     public Room Room { get; set; }
 
     [Column("check_in_date")]
