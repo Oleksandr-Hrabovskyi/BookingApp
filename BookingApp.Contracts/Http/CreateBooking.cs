@@ -9,30 +9,30 @@ public class CreateBookingRequest
 {
     [Required]
     [MaxLength(255)]
-    public string FirstName { get; set; }
+    public string FirstName { get; init; }
 
     [Required]
     [MaxLength(255)]
-    public string LastName { get; set; }
+    public string LastName { get; init; }
 
     [Required]
     [MaxLength(15)]
-    public string PhoneNumber { get; set; }
+    public string PhoneNumber { get; init; }
 
     [Required]
-    public Room Room { get; set; }
+    public Room Room { get; init; }
 
     [Required]
-    public DateTime CheckInDate { get; set; }
+    public DateTime CheckInDate { get; init; }
 
     [Required]
-    public DateTime CheckOutDate { get; set; }
+    public DateTime CheckOutDate { get; init; }
 
     [MaxLength(500)]
-    public string Comment { get; set; }
+    public string Comment { get; init; }
 }
 
 public class CreateBookingResponse
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
 }
