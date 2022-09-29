@@ -41,7 +41,7 @@ public class CreateBookingCommandHandlerTests : IDisposable
         {
             Name = RoomName,
             Type = RoomType,
-            Price = RoomPrice.Next()
+            Price = RoomPrice.Next(1000, 2500)
         };
         var BookingCheckInDate = new DateTime(2022, 9, 20);
         var BookingCheckOutDate = new DateTime(2022, 9, 21);
@@ -51,7 +51,7 @@ public class CreateBookingCommandHandlerTests : IDisposable
             FirstName = BookingFirstName,
             LastName = BookingLastName,
             PhoneNumber = BookingPhoneNumber,
-            RoomId = RoomId.Next(),
+            RoomId = RoomId.Next(0, 100),
             CheckInDate = BookingCheckInDate,
             CheckOutDate = BookingCheckOutDate
         };

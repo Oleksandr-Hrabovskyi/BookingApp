@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using BookingApp.Contracts.Http;
 using BookingApp.Domain.Commands;
+using BookingApp.Domain.Queries;
 
 using MediatR;
 
@@ -19,6 +20,34 @@ public class BookingController : BaseController
     {
         _mediator = mediator;
     }
+
+    [HttpGet("{bookingId}")]
+    public Task<IActionResult> GetBooking([FromRoute] int bookingId,
+        CancellationToken cancellationToken) =>
+        SaveExecute(async () =>
+        {
+            var query = new BookingQuery
+            {
+                BookingId = bookingId
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
+            var booking = result.Booking;
+            var response = new BookingResponse
+            {
+                Booking = new Contracts.Database.Booking
+                {
+                    Id = booking.Id,
+                    FirstName = booking.FirstName,
+                    LastName = booking.LastName,
+                    PhoneNumber = booking.PhoneNumber,
+                    RoomId = booking.Id,
+                    CheckInDate = booking.CheckInDate,
+                    CheckOutDate = booking.CheckOutDate
+                }
+            };
+            return Ok(response);
+        }, cancellationToken);
 
     [HttpPut]
     public Task<IActionResult> CreateBooking([FromBody] CreateBookingRequest request,

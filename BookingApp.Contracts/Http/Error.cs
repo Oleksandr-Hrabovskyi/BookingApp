@@ -2,6 +2,7 @@ namespace BookingApp.Contracts.Http;
 
 public enum ErrorCode
 {
+    BookingNotFound = 40401,
     InternalServerError = 50000,
     DbFailureError = 50001
 }

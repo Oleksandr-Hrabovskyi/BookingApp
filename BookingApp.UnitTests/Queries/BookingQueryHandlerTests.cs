@@ -29,6 +29,7 @@ public class BookingQueryHandlerTests : IDisposable
     public async Task HandleShouldReturnBooking()
     {
         // Arrange
+        var dbContext = DbContextHelper.CreateTestDb();
         var RoomId = new Random();
         var booking = new Booking
         {
@@ -37,12 +38,12 @@ public class BookingQueryHandlerTests : IDisposable
             PhoneNumber = Guid.NewGuid().ToString(),
             CheckInDate = new DateTime(2022, 9, 20),
             CheckOutDate = new DateTime(2022, 9, 21),
-            RoomId = RoomId.Next(),
+            RoomId = RoomId.Next(0, 100),
             Comment = Guid.NewGuid().ToString()
         };
 
-        await _dbContext.AddAsync(booking);
-        await _dbContext.SaveChangesAsync();
+        await dbContext.AddAsync(booking);
+        await dbContext.SaveChangesAsync();
 
         var query = new BookingQuery
         {
@@ -80,8 +81,8 @@ public class BookingQueryHandlerTests : IDisposable
             // Act
             await _handler.Handle(query, CancellationToken.None);
         }
-        catch (BookingException we) when (we.ErrorCode == ErrorCode.BookingNotFound
-            && we.Message == $"Booking {bookingId} not found")
+        catch (BookingException be) when (be.ErrorCode == ErrorCode.BookingNotFound
+            && be.Message == $"Booking {bookingId} not found")
         {
             // Arrange
             // ignore

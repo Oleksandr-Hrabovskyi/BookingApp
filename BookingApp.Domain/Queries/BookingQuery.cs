@@ -31,17 +31,17 @@ public class BookingQueryHandler : IRequestHandler<BookingQuery, BookingQueryRes
         _dbContext = dbContext;
     }
 
-    public Task<BookingQueryResult> Handle(BookingQuery request, CancellationToken cancellationToken)
+    public async Task<BookingQueryResult> Handle(BookingQuery request, CancellationToken cancellationToken)
     {
         var bookingId = request.BookingId;
-        var booking = _dbContext.Booking
+        var booking = await _dbContext.Booking
             .SingleOrDefaultAsync(b => b.Id == bookingId, cancellationToken);
 
-        return Task.FromResult(booking == null
+        return booking == null
             ? throw new BookingException(ErrorCode.BookingNotFound, $"Booking {bookingId} not found")
             : new BookingQueryResult
             {
                 Booking = booking
-            });
+            };
     }
 }

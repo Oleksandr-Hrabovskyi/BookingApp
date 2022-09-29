@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using BookingApp.Contracts.Http;
+using BookingApp.Domain.Exceptions;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,16 @@ public class BaseController : ControllerBase
         try
         {
             return await action();
+        }
+        catch (BookingException be)
+        {
+            var response = new ErrorResponse
+            {
+                Code = be.ErrorCode,
+                Message = be.Message
+            };
+
+            return ToActionResult(response);
         }
         catch (InvalidOperationException ioe) when (ioe.InnerException is NpgsqlException)
         {
