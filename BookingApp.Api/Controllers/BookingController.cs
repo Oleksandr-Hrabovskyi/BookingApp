@@ -32,7 +32,7 @@ public class BookingController : BaseController
                 PhoneNumber = request.PhoneNumber,
                 CheckInDate = request.CheckInDate,
                 CheckOutDate = request.CheckOutDate,
-                Room = request.Room,
+                RoomId = request.RoomId,
                 Comment = request.Comment
             };
 

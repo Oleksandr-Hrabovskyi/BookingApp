@@ -27,10 +27,9 @@ public class Booking
     [MaxLength(15)]
     public string PhoneNumber { get; set; }
 
-    [Column("room")]
-    [Required]
-
-    public Room Room { get; set; }
+    [ForeignKey(nameof(Room))]
+    [Column("room_id")]
+    public int RoomId { get; set; }
 
     [Column("check_in_date")]
     [Required]

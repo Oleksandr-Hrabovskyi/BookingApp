@@ -1,8 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-using BookingApp.Contracts.Database;
-
 namespace BookingApp.Contracts.Http;
 
 public class CreateBookingRequest
@@ -20,7 +18,7 @@ public class CreateBookingRequest
     public string PhoneNumber { get; init; }
 
     [Required]
-    public Room Room { get; init; }
+    public int RoomId { get; init; }
 
     [Required]
     public DateTime CheckInDate { get; init; }

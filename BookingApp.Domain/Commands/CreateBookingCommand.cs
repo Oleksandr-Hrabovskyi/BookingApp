@@ -14,7 +14,7 @@ public class CreateBookingCommand : IRequest<CreateBookingCommandResult>
     public string FirstName { get; init; }
     public string LastName { get; init; }
     public string PhoneNumber { get; init; }
-    public Room Room { get; init; }
+    public int RoomId { get; init; }
     public DateTime CheckInDate { get; init; }
     public DateTime CheckOutDate { get; init; }
     public string Comment { get; set; }
@@ -41,7 +41,7 @@ public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand,
             FirstName = request.FirstName,
             LastName = request.LastName,
             PhoneNumber = request.PhoneNumber,
-            Room = request.Room,
+            RoomId = request.RoomId,
             CheckInDate = request.CheckInDate,
             CheckOutDate = request.CheckOutDate,
             Comment = request.Comment
