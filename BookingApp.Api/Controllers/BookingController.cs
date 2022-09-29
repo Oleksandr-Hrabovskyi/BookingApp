@@ -41,7 +41,7 @@ public class BookingController : BaseController
                     FirstName = booking.FirstName,
                     LastName = booking.LastName,
                     PhoneNumber = booking.PhoneNumber,
-                    RoomId = booking.Id,
+                    RoomId = booking.RoomId,
                     CheckInDate = booking.CheckInDate,
                     CheckOutDate = booking.CheckOutDate
                 }
@@ -70,7 +70,7 @@ public class BookingController : BaseController
             {
                 Id = result.Booking.Id
             };
-            return Created("http://booking.com", response);
+            return Created($"http://{Request.Host}/api/booking.com/{response.Id}", response);
         }, cancellationToken);
 
 }
