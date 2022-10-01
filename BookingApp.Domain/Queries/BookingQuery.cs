@@ -36,9 +36,8 @@ internal class BookingQueryHandler : BaseHandler<BookingQuery, BookingQueryResul
     protected override async Task<BookingQueryResult> HandleInternal(BookingQuery request,
         CancellationToken cancellationToken)
     {
-        //Logger.LogDebug("Start to execute BookingQueryHandler with parametr {Id}", request.BookingId);
-
         var bookingId = request.BookingId;
+
         var booking = await _dbContext.Booking
             .SingleOrDefaultAsync(b => b.Id == bookingId, cancellationToken);
 
