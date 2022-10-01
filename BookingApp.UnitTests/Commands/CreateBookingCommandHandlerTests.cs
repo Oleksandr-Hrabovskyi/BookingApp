@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-using BookingApp.Contracts.Database;
 using BookingApp.Domain.Commands;
 using BookingApp.Domain.Database;
 using BookingApp.UnitTests.Helpers;
@@ -18,7 +17,7 @@ using Shouldly;
 
 namespace BookingApp.UnitTests.Commands;
 
-public class CreateBookingCommandHandlerTests : IDisposable
+public class CreateBookingCommandHandlerTests
 {
     private readonly BookingDbContext _dbContext;
     private readonly IRequestHandler<CreateBookingCommand, CreateBookingCommandResult> _handler;
@@ -41,12 +40,12 @@ public class CreateBookingCommandHandlerTests : IDisposable
         var RoomType = Guid.NewGuid().ToString();
         var RoomPrice = new Random();
         var RoomId = new Random();
-        var BookingRoom = new Room
-        {
-            Name = RoomName,
-            Type = RoomType,
-            Price = RoomPrice.Next(1000, 2500)
-        };
+        // var BookingRoom = new Room
+        // {
+        //     Name = RoomName,
+        //     Type = RoomType,
+        //     Price = RoomPrice.Next(1000, 2500)
+        // };
         var BookingCheckInDate = new DateTime(2022, 9, 20);
         var BookingCheckOutDate = new DateTime(2022, 9, 21);
 
@@ -75,9 +74,9 @@ public class CreateBookingCommandHandlerTests : IDisposable
         //result.Booking.Room.Price.ShouldBeGreaterThan(0);
     }
 
-    public void Dispose()
-    {
-        _dbContext.Database.EnsureDeleted();
-        _dbContext.Dispose();
-    }
+    // public void Dispose()
+    // {
+    //     _dbContext.Database.EnsureDeleted();
+    //     _dbContext.Dispose();
+    // }
 }

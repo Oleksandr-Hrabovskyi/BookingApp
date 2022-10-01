@@ -57,3 +57,5 @@ app.MapControllers();
 app.MapHealthChecks("/Health");
 
 app.Run();
+
+public partial class Program { }

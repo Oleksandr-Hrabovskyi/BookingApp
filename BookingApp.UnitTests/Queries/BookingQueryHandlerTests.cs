@@ -19,7 +19,7 @@ using Shouldly;
 
 namespace BookingApp.UnitTests.Queries;
 
-public class BookingQueryHandlerTests : IDisposable
+public class BookingQueryHandlerTests
 {
     private readonly BookingDbContext _dbContext;
     private readonly IRequestHandler<BookingQuery, BookingQueryResult> _handler;
@@ -94,9 +94,9 @@ public class BookingQueryHandlerTests : IDisposable
         }
     }
 
-    public void Dispose()
-    {
-        _dbContext.Database.EnsureDeleted();
-        _dbContext.Dispose();
-    }
+    // public void Dispose()
+    // {
+    //     _dbContext.Database.EnsureDeleted();
+    //     _dbContext.Dispose();
+    // }
 }
