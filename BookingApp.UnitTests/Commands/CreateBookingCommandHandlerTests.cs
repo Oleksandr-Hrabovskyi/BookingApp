@@ -10,6 +10,9 @@ using BookingApp.UnitTests.Helpers;
 using MediatR;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
+using Moq;
 
 using Shouldly;
 
@@ -23,7 +26,8 @@ public class CreateBookingCommandHandlerTests : IDisposable
     {
         _dbContext = DbContextHelper.CreateTestDb();
         _dbContext.Database.Migrate();
-        _handler = new CreateBookingCommandHandler(_dbContext);
+        _handler = new CreateBookingCommandHandler(_dbContext,
+            new Mock<ILogger<CreateBookingCommandHandler>>().Object);
     }
 
     [Fact]

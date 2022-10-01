@@ -11,6 +11,10 @@ using BookingApp.UnitTests.Helpers;
 
 using MediatR;
 
+using Microsoft.Extensions.Logging;
+
+using Moq;
+
 using Shouldly;
 
 namespace BookingApp.UnitTests.Queries;
@@ -22,7 +26,8 @@ public class BookingQueryHandlerTests : IDisposable
     public BookingQueryHandlerTests()
     {
         _dbContext = DbContextHelper.CreateTestDb();
-        _handler = new BookingQueryHandler(_dbContext);
+        _handler = new BookingQueryHandler(_dbContext,
+            new Mock<ILogger<BookingQueryHandler>>().Object);
     }
 
     [Fact]

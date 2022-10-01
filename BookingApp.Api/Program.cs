@@ -1,10 +1,7 @@
 using System;
 
 using BookingApp.Api.Configuration;
-using BookingApp.Domain.Commands;
-using BookingApp.Domain.Database;
-
-using MediatR;
+using BookingApp.Domain;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -38,11 +35,11 @@ builder.Services.AddHealthChecks()
 
 builder.Services.Configure<AppConfiguration>(builder.Configuration);
 
-builder.Services.AddMediatR(typeof(CreateBookingCommand));
-builder.Services.AddDbContext<BookingDbContext>((sp, options) =>
+builder.Services.AddDomainServices((sp, options) =>
 {
     var configuration = sp.GetRequiredService<IOptionsMonitor<AppConfiguration>>();
     var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
+
     options.UseNpgsql(configuration.CurrentValue.ConnectionString)
         .UseLoggerFactory(loggerFactory);
 });

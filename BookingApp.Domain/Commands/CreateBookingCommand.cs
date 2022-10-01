@@ -41,9 +41,6 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
     protected override async Task<CreateBookingCommandResult> HandleInternal(CreateBookingCommand request,
         CancellationToken cancellationToken)
     {
-        // Logger.LogDebug("Start to execute CreateBookingCommand with parameters {FirstName}, {LastName}, {RoomId}, {PhoneNumber}, {CheckInDate}, {CheckOutDate}",
-        //     request.FirstName, request.LastName, request.RoomId, request.PhoneNumber, request.CheckInDate, request.CheckOutDate);
-
         var booking = new Booking
         {
             FirstName = request.FirstName,
@@ -56,8 +53,6 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
         };
         await _dBContext.AddAsync(booking, cancellationToken);
         await _dBContext.SaveChangesAsync(cancellationToken);
-
-        //Logger.LogInformation("Created new booking with id {Id}", booking.Id);
 
         return new CreateBookingCommandResult
         {

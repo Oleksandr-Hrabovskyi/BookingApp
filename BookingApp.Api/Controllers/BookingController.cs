@@ -55,6 +55,14 @@ public class BookingController : BaseController
         CancellationToken cancellationToken) =>
         SaveExecute(async () =>
         {
+            if (!ModelState.IsValid)
+            {
+                return ToActionResult(new ErrorResponse
+                {
+                    Code = ErrorCode.BadRequest,
+                    Message = "Invalid request"
+                });
+            }
             var command = new CreateBookingCommand
             {
                 FirstName = request.FirstName,
