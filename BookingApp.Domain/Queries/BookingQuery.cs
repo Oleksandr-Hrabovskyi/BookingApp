@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 
 using BookingApp.Contracts.Database;
 using BookingApp.Contracts.Http;
+using BookingApp.Domain.Base;
 using BookingApp.Domain.Database;
 using BookingApp.Domain.Exceptions;
 
 using MediatR;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BookingApp.Domain.Queries;
 
@@ -22,17 +24,20 @@ public class BookingQueryResult
     public Booking Booking { get; set; }
 }
 
-public class BookingQueryHandler : IRequestHandler<BookingQuery, BookingQueryResult>
+internal class BookingQueryHandler : BaseHandler<BookingQuery, BookingQueryResult>
 {
     private readonly BookingDbContext _dbContext;
 
-    public BookingQueryHandler(BookingDbContext dbContext)
+    public BookingQueryHandler(BookingDbContext dbContext, ILogger<BookingQueryHandler> logger) : base(logger)
     {
         _dbContext = dbContext;
     }
 
-    public async Task<BookingQueryResult> Handle(BookingQuery request, CancellationToken cancellationToken)
+    protected override async Task<BookingQueryResult> HandleInternal(BookingQuery request,
+        CancellationToken cancellationToken)
     {
+        //Logger.LogDebug("Start to execute BookingQueryHandler with parametr {Id}", request.BookingId);
+
         var bookingId = request.BookingId;
         var booking = await _dbContext.Booking
             .SingleOrDefaultAsync(b => b.Id == bookingId, cancellationToken);

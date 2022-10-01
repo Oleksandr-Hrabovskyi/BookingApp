@@ -8,6 +8,7 @@ using BookingApp.Domain.Queries;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace BookingApp.Api.Controllers;
 
@@ -16,7 +17,7 @@ public class BookingController : BaseController
 {
     private readonly IMediator _mediator;
 
-    public BookingController(IMediator mediator)
+    public BookingController(IMediator mediator, ILogger<BookingController> logger) : base(logger)
     {
         _mediator = mediator;
     }

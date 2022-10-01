@@ -6,6 +6,7 @@ using BookingApp.Contracts.Http;
 using BookingApp.Domain.Exceptions;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 using Npgsql;
 
@@ -13,6 +14,13 @@ namespace BookingApp.Api.Controllers;
 
 public class BaseController : ControllerBase
 {
+    private readonly ILogger _logger;
+
+    protected BaseController(ILogger logger)
+    {
+        _logger = logger;
+    }
+
     protected async Task<IActionResult> SaveExecute(Func<Task<IActionResult>> action,
         CancellationToken cancellationToken)
     {
@@ -22,6 +30,7 @@ public class BaseController : ControllerBase
         }
         catch (BookingException be)
         {
+            _logger.LogError(be, "Booking exception raised");
             var response = new ErrorResponse
             {
                 Code = be.ErrorCode,
@@ -32,6 +41,7 @@ public class BaseController : ControllerBase
         }
         catch (InvalidOperationException ioe) when (ioe.InnerException is NpgsqlException)
         {
+            _logger.LogError(ioe, "DB exception raised");
             var response = new ErrorResponse
             {
                 Code = ErrorCode.DbFailureError,
@@ -39,8 +49,9 @@ public class BaseController : ControllerBase
             };
             return ToActionResult(response);
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogError(e, "Unhandled exception raised");
             var response = new ErrorResponse
             {
                 Code = ErrorCode.InternalServerError,
