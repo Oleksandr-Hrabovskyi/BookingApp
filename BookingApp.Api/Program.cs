@@ -1,3 +1,5 @@
+using System;
+
 using BookingApp.Api.Configuration;
 using BookingApp.Domain.Commands;
 using BookingApp.Domain.Database;
@@ -18,6 +20,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHealthChecks()
+    .AddNpgSql((sp) =>
+    {
+        var configuration = sp.GetRequiredService<IOptionsMonitor<AppConfiguration>>();
+        return configuration.CurrentValue.ConnectionString;
+    },
+        timeout: TimeSpan.FromSeconds(2));
 
 builder.Services.Configure<AppConfiguration>(builder.Configuration);
 
@@ -38,5 +47,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+app.MapHealthChecks("/Health");
 
 app.Run();

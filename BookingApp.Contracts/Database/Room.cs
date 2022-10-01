@@ -6,7 +6,6 @@ namespace BookingApp.Contracts.Database;
 [Table("tbl_rooms", Schema = "public")]
 public class Room
 {
-
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("id")]
