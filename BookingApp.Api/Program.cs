@@ -1,7 +1,11 @@
 using System;
 
 using BookingApp.Api.Configuration;
+using BookingApp.Api.Validation;
 using BookingApp.Domain;
+
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +47,9 @@ builder.Services.AddDomainServices((sp, options) =>
     options.UseNpgsql(configuration.CurrentValue.ConnectionString)
         .UseLoggerFactory(loggerFactory);
 });
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateBookingRequestValidator>();
 
 var app = builder.Build();
 

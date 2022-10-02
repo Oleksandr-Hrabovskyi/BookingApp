@@ -35,7 +35,13 @@ public class BookingQueryHandlerTests
     {
         // Arrange
         var dbContext = DbContextHelper.CreateTestDb();
-        var roomId = new Random().Next(1, 100);
+        // var roomId = new Random().Next(1, 100);
+        var room = new Room
+        {
+            Name = Guid.NewGuid().ToString(),
+            Type = Guid.NewGuid().ToString(),
+            Price = new Random().Next(1000, 2500)
+        };
         var booking = new Booking
         {
             FirstName = Guid.NewGuid().ToString(),
@@ -43,7 +49,7 @@ public class BookingQueryHandlerTests
             PhoneNumber = Guid.NewGuid().ToString(),
             CheckInDate = new DateTime(2022, 9, 20),
             CheckOutDate = new DateTime(2022, 9, 21),
-            RoomId = roomId,
+            RoomId = room.Id,
             Comment = Guid.NewGuid().ToString()
         };
 
@@ -89,7 +95,7 @@ public class BookingQueryHandlerTests
         catch (BookingException be) when (be.ErrorCode == ErrorCode.BookingNotFound
             && be.Message == $"Booking {bookingId} not found")
         {
-            // Arrange
+            // Assert
             // ignore
         }
     }

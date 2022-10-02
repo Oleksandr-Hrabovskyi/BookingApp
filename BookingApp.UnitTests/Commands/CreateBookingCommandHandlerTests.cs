@@ -2,8 +2,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using BookingApp.Contracts.Database;
+using BookingApp.Contracts.Http;
 using BookingApp.Domain.Commands;
 using BookingApp.Domain.Database;
+using BookingApp.Domain.Exceptions;
 using BookingApp.UnitTests.Helpers;
 
 using MediatR;
@@ -33,30 +36,21 @@ public class CreateBookingCommandHandlerTests
     public async Task HandleShouldCreateBooking()
     {
         //Arrange
-        var bookingFirstName = Guid.NewGuid().ToString();
-        var bookingLastName = Guid.NewGuid().ToString();
-        var bookingPhoneNumber = Guid.NewGuid().ToString();
-        var roomName = Guid.NewGuid().ToString();
-        // var roomType = Guid.NewGuid().ToString();
-        // var roomPrice = new Random();
-        var roomId = new Random().Next(0, 100);
-        // var BookingRoom = new Room
-        // {
-        //     Name = RoomName,
-        //     Type = RoomType,
-        //     Price = RoomPrice.Next(1000, 2500)
-        // };
-        var bookingCheckInDate = new DateTime(2022, 9, 20);
-        var bookingCheckOutDate = new DateTime(2022, 9, 21);
+        var room = new Room
+        {
+            Name = Guid.NewGuid().ToString(),
+            Type = Guid.NewGuid().ToString(),
+            Price = new Random().Next(1000, 2500)
+        };
 
         var command = new CreateBookingCommand
         {
-            FirstName = bookingFirstName,
-            LastName = bookingLastName,
-            PhoneNumber = bookingPhoneNumber,
-            RoomId = roomId,
-            CheckInDate = bookingCheckInDate,
-            CheckOutDate = bookingCheckOutDate
+            FirstName = Guid.NewGuid().ToString(),
+            LastName = Guid.NewGuid().ToString(),
+            PhoneNumber = Guid.NewGuid().ToString(),
+            RoomId = room.Id,
+            CheckInDate = new DateTime(2022, 9, 20),
+            CheckOutDate = new DateTime(2022, 9, 21)
         };
 
         //Act
@@ -69,10 +63,36 @@ public class CreateBookingCommandHandlerTests
         result.Booking.FirstName.ShouldNotBeNull();
         result.Booking.LastName.ShouldNotBeNull();
         result.Booking.PhoneNumber.ShouldNotBeNull();
-        //result.Booking.Room.Name.ShouldNotBeNull();
-        //result.Booking.Room.Type.ShouldNotBeNull();
-        //result.Booking.Room.Price.ShouldBeGreaterThan(0);
     }
+
+    [Fact]
+    public async Task HandleShouldThrowExceptionIfNoRoom()
+    {
+        //Arrange
+        var roomId = -1;
+        var command = new CreateBookingCommand
+        {
+            FirstName = Guid.NewGuid().ToString(),
+            LastName = Guid.NewGuid().ToString(),
+            PhoneNumber = Guid.NewGuid().ToString(),
+            RoomId = roomId,
+            CheckInDate = new DateTime(2022, 9, 20),
+            CheckOutDate = new DateTime(2022, 9, 21)
+        };
+
+        try
+        {
+            //Act
+            await _handler.Handle(command, CancellationToken.None);
+        }
+        catch (BookingException be) when (be.ErrorCode == ErrorCode.BookingNotFound &&
+            be.Message == $"Booking {roomId} not found")
+        {
+            // Assert
+            // ignore
+        }
+    }
+
 
     // public void Dispose()
     // {
