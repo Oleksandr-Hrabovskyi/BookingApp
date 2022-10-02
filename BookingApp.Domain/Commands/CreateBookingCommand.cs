@@ -3,11 +3,14 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using BookingApp.Contracts.Database;
+using BookingApp.Contracts.Http;
 using BookingApp.Domain.Base;
 using BookingApp.Domain.Database;
+using BookingApp.Domain.Exceptions;
 
 using MediatR;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BookingApp.Domain.Commands;
@@ -41,6 +44,16 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
     protected override async Task<CreateBookingCommandResult> HandleInternal(CreateBookingCommand request,
         CancellationToken cancellationToken)
     {
+        var roomId = request.RoomId;
+
+        var room = await _dBContext.Room
+            .SingleOrDefaultAsync(b => b.Id == roomId, cancellationToken);
+
+        if (room == null)
+        {
+            throw new BookingException(ErrorCode.BookingNotFound, $"Wishlist {roomId} not found");
+        }
+
         var booking = new Booking
         {
             FirstName = request.FirstName,
