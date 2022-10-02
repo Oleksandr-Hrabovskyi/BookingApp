@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingApp.Domain.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    [Migration("20221001185835_Initial")]
+    [Migration("20221002221215_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,8 @@ namespace BookingApp.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoomId");
+
                     b.ToTable("tbl_bookings", "public");
                 });
 
@@ -101,6 +103,17 @@ namespace BookingApp.Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tbl_rooms", "public");
+                });
+
+            modelBuilder.Entity("BookingApp.Contracts.Database.Booking", b =>
+                {
+                    b.HasOne("BookingApp.Contracts.Database.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
                 });
 #pragma warning restore 612, 618
         }

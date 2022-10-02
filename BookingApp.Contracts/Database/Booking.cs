@@ -30,6 +30,7 @@ public class Booking
     [ForeignKey(nameof(Room))]
     [Column("room_id")]
     public int RoomId { get; set; }
+    public virtual Room Room { get; set; }
 
     [Column("check_in_date")]
     [Required]

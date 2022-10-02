@@ -39,7 +39,7 @@ internal class CreateRoomCommandHandler : BaseHandler<CreateRoomCommand, CreateR
         {
             Name = request.Name,
             Type = request.Type,
-            Price = request.Price,
+            Price = request.Price
         };
         await _dbContext.AddAsync(room, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);

@@ -85,8 +85,8 @@ public class CreateBookingCommandHandlerTests
             //Act
             await _handler.Handle(command, CancellationToken.None);
         }
-        catch (BookingException be) when (be.ErrorCode == ErrorCode.BookingNotFound &&
-            be.Message == $"Booking {roomId} not found")
+        catch (BookingException be) when (be.ErrorCode == ErrorCode.RoomNotFound &&
+            be.Message == $"Room {roomId} not found")
         {
             // Assert
             // ignore

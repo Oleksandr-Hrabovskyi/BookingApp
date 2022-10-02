@@ -51,7 +51,7 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
 
         if (room == null)
         {
-            throw new BookingException(ErrorCode.BookingNotFound, $"Booking {roomId} not found");
+            throw new BookingException(ErrorCode.BookingNotFound, $"Room {roomId} not found");
         }
 
         var booking = new Booking

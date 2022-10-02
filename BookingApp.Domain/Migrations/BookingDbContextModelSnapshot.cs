@@ -68,6 +68,8 @@ namespace BookingApp.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoomId");
+
                     b.ToTable("tbl_bookings", "public");
                 });
 
@@ -99,6 +101,17 @@ namespace BookingApp.Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tbl_rooms", "public");
+                });
+
+            modelBuilder.Entity("BookingApp.Contracts.Database.Booking", b =>
+                {
+                    b.HasOne("BookingApp.Contracts.Database.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
                 });
 #pragma warning restore 612, 618
         }
