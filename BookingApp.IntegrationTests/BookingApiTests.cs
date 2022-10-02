@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
+using BookingApp.Contracts.Database;
 using BookingApp.Contracts.Http;
 
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -26,12 +27,18 @@ public class BookingApiTests
     public async Task CreateBookingShouldReturnBookingId()
     {
         // Arrange
+        var room = new Room
+        {
+            Name = Guid.NewGuid().ToString(),
+            Type = Guid.NewGuid().ToString(),
+            Price = new Random().Next(1000, 2500)
+        };
         var request = new CreateBookingRequest
         {
             FirstName = Guid.NewGuid().ToString(),
             LastName = Guid.NewGuid().ToString(),
             PhoneNumber = "+380991234567",
-            RoomId = new Random().Next(1, 100),
+            RoomId = room.Id,
             CheckInDate = new DateTime(2022, 9, 20),
             CheckOutDate = new DateTime(2022, 9, 21),
             Comment = Guid.NewGuid().ToString()

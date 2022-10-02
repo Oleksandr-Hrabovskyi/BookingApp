@@ -33,12 +33,12 @@ public class CreateBookingCommandResult
 
 internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, CreateBookingCommandResult>
 {
-    private readonly BookingDbContext _dBContext;
+    private readonly BookingDbContext _dbContext;
 
     public CreateBookingCommandHandler(BookingDbContext dBContext,
         ILogger<CreateBookingCommandHandler> logger) : base(logger)
     {
-        _dBContext = dBContext;
+        _dbContext = dBContext;
     }
 
     protected override async Task<CreateBookingCommandResult> HandleInternal(CreateBookingCommand request,
@@ -46,12 +46,12 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
     {
         var roomId = request.RoomId;
 
-        var room = await _dBContext.Room
-            .SingleOrDefaultAsync(b => b.Id == roomId, cancellationToken);
+        var room = await _dbContext.Room
+            .SingleOrDefaultAsync(r => r.Id == roomId, cancellationToken);
 
         if (room == null)
         {
-            throw new BookingException(ErrorCode.BookingNotFound, $"Wishlist {roomId} not found");
+            throw new BookingException(ErrorCode.BookingNotFound, $"Booking {roomId} not found");
         }
 
         var booking = new Booking
@@ -59,13 +59,13 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
             FirstName = request.FirstName,
             LastName = request.LastName,
             PhoneNumber = request.PhoneNumber,
-            RoomId = request.RoomId,
+            RoomId = roomId,
             CheckInDate = request.CheckInDate,
             CheckOutDate = request.CheckOutDate,
             Comment = request.Comment
         };
-        await _dBContext.AddAsync(booking, cancellationToken);
-        await _dBContext.SaveChangesAsync(cancellationToken);
+        await _dbContext.AddAsync(booking, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return new CreateBookingCommandResult
         {
