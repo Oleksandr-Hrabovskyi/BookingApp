@@ -35,7 +35,7 @@ public class BookingQueryHandlerTests
     {
         // Arrange
         var dbContext = DbContextHelper.CreateTestDb();
-        var RoomId = new Random();
+        var roomId = new Random().Next(1, 100);
         var booking = new Booking
         {
             FirstName = Guid.NewGuid().ToString(),
@@ -43,7 +43,7 @@ public class BookingQueryHandlerTests
             PhoneNumber = Guid.NewGuid().ToString(),
             CheckInDate = new DateTime(2022, 9, 20),
             CheckOutDate = new DateTime(2022, 9, 21),
-            RoomId = RoomId.Next(0, 100),
+            RoomId = roomId,
             Comment = Guid.NewGuid().ToString()
         };
 

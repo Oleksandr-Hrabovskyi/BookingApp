@@ -33,30 +33,30 @@ public class CreateBookingCommandHandlerTests
     public async Task HandleShouldCreateBooking()
     {
         //Arrange
-        var BookingFirstName = Guid.NewGuid().ToString();
-        var BookingLastName = Guid.NewGuid().ToString();
-        var BookingPhoneNumber = Guid.NewGuid().ToString();
-        var RoomName = Guid.NewGuid().ToString();
-        var RoomType = Guid.NewGuid().ToString();
-        var RoomPrice = new Random();
-        var RoomId = new Random();
+        var bookingFirstName = Guid.NewGuid().ToString();
+        var bookingLastName = Guid.NewGuid().ToString();
+        var bookingPhoneNumber = Guid.NewGuid().ToString();
+        var roomName = Guid.NewGuid().ToString();
+        // var roomType = Guid.NewGuid().ToString();
+        // var roomPrice = new Random();
+        var roomId = new Random().Next(0, 100);
         // var BookingRoom = new Room
         // {
         //     Name = RoomName,
         //     Type = RoomType,
         //     Price = RoomPrice.Next(1000, 2500)
         // };
-        var BookingCheckInDate = new DateTime(2022, 9, 20);
-        var BookingCheckOutDate = new DateTime(2022, 9, 21);
+        var bookingCheckInDate = new DateTime(2022, 9, 20);
+        var bookingCheckOutDate = new DateTime(2022, 9, 21);
 
         var command = new CreateBookingCommand
         {
-            FirstName = BookingFirstName,
-            LastName = BookingLastName,
-            PhoneNumber = BookingPhoneNumber,
-            RoomId = RoomId.Next(0, 100),
-            CheckInDate = BookingCheckInDate,
-            CheckOutDate = BookingCheckOutDate
+            FirstName = bookingFirstName,
+            LastName = bookingLastName,
+            PhoneNumber = bookingPhoneNumber,
+            RoomId = roomId,
+            CheckInDate = bookingCheckInDate,
+            CheckOutDate = bookingCheckOutDate
         };
 
         //Act

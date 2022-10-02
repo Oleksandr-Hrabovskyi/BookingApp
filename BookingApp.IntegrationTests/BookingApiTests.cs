@@ -26,13 +26,12 @@ public class BookingApiTests
     public async Task CreateBookingShouldReturnBookingId()
     {
         // Arrange
-        var RoomId = new Random();
         var request = new CreateBookingRequest
         {
             FirstName = Guid.NewGuid().ToString(),
             LastName = Guid.NewGuid().ToString(),
             PhoneNumber = "+380991234567",
-            RoomId = RoomId.Next(1, 100),
+            RoomId = new Random().Next(1, 100),
             CheckInDate = new DateTime(2022, 9, 20),
             CheckOutDate = new DateTime(2022, 9, 21),
             Comment = Guid.NewGuid().ToString()
