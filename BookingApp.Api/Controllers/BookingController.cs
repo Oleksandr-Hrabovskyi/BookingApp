@@ -74,7 +74,7 @@ public class BookingController : BaseController
     /// <response code="404">Booking not found</response>
     /// <response code="500">Internal Server Error</response>
     [HttpPut]
-    [ProducesResponseType(typeof(CreateBookingResponse), 200)]
+    [ProducesResponseType(typeof(CreateBookingResponse), 201)]
     [ProducesResponseType(typeof(ErrorResponse), 404)]
     [ProducesResponseType(typeof(ErrorResponse), 500)]
     public Task<IActionResult> CreateBooking([FromBody] CreateBookingRequest request,

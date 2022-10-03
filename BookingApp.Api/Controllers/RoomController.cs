@@ -32,7 +32,7 @@ public class RoomController : BaseController
     /// <response code="404">Room not found</response>
     /// <response code="500">Internal Server Error</response>
     [HttpPut]
-    [ProducesResponseType(typeof(CreateRoomResponse), 200)]
+    [ProducesResponseType(typeof(CreateRoomResponse), 201)]
     [ProducesResponseType(typeof(ErrorResponse), 404)]
     [ProducesResponseType(typeof(ErrorResponse), 500)]
     public Task<IActionResult> CreateRoom([FromBody] CreateRoomRequest request,
