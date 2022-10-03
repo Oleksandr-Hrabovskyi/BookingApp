@@ -51,7 +51,7 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
 
         if (room == null)
         {
-            throw new BookingException(ErrorCode.BookingNotFound, $"Room {roomId} not found");
+            throw new BookingException(ErrorCode.RoomNotFound, $"Room {roomId} not found");
         }
 
         var booking = new Booking
@@ -60,8 +60,8 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
             LastName = request.LastName,
             PhoneNumber = request.PhoneNumber,
             RoomId = roomId,
-            CheckInDate = request.CheckInDate,
-            CheckOutDate = request.CheckOutDate,
+            CheckInDate = request.CheckInDate.ToUniversalTime(),
+            CheckOutDate = request.CheckOutDate.ToUniversalTime(),
             Comment = request.Comment
         };
         await _dbContext.AddAsync(booking, cancellationToken);

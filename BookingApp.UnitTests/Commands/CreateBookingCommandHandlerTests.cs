@@ -84,12 +84,13 @@ public class CreateBookingCommandHandlerTests : BaseHandlerTest<CreateBookingCom
         {
             //Act
             await Handler.Handle(command, CancellationToken.None);
+            throw new Exception("Exception was expected");
         }
-        catch (BookingException be) when (be.ErrorCode == ErrorCode.RoomNotFound &&
-            be.Message == $"Room {command.RoomId} not found")
+        catch (BookingException be)
         {
             // Assert
-            // ignore
+            be.ErrorCode.ShouldBe(ErrorCode.RoomNotFound);
+            be.Message.ShouldBe($"Room {command.RoomId} not found");
         }
     }
 }

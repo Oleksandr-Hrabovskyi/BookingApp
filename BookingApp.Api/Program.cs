@@ -3,11 +3,7 @@ using System.IO;
 using System.Reflection;
 
 using BookingApp.Api.Configuration;
-using BookingApp.Api.Validation;
 using BookingApp.Domain;
-
-using FluentValidation;
-using FluentValidation.AspNetCore;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -63,9 +59,9 @@ builder.Services.AddDomainServices((sp, options) =>
         .UseLoggerFactory(loggerFactory);
 });
 
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblyContaining<CreateBookingRequestValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<CreateRoomRequestValidator>();
+// builder.Services.AddFluentValidationAutoValidation();
+// builder.Services.AddScoped<IValidator<CreateBookingRequest>, CreateBookingRequestValidator>();
+// builder.Services.AddScoped<IValidator<CreateRoomRequest>, CreateRoomRequestValidator>();
 
 var app = builder.Build();
 
