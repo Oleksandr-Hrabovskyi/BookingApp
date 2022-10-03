@@ -70,13 +70,12 @@ public class CreateBookingCommandHandlerTests : BaseHandlerTest<CreateBookingCom
     public async Task HandleShouldThrowExceptionIfNoRoom()
     {
         //Arrange
-        var roomId = 1;
         var command = new CreateBookingCommand
         {
             FirstName = Guid.NewGuid().ToString(),
             LastName = Guid.NewGuid().ToString(),
             PhoneNumber = Guid.NewGuid().ToString(),
-            RoomId = roomId,
+            RoomId = -1,
             CheckInDate = new DateTime(2022, 9, 20),
             CheckOutDate = new DateTime(2022, 9, 21)
         };

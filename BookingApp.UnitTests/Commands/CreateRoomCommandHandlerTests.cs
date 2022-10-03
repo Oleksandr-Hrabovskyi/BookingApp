@@ -48,6 +48,5 @@ public class CreateRoomCommandHandlerTests : BaseHandlerTest<CreateRoomCommand, 
         result.Room.Name.ShouldBe(command.Name);
         result.Room.Type.ShouldBe(command.Type);
         result.Room.Price.ShouldBe(command.Price);
-
     }
 }
