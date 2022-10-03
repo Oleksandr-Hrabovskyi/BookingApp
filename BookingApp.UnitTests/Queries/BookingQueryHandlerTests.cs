@@ -7,7 +7,6 @@ using BookingApp.Contracts.Http;
 using BookingApp.Domain.Exceptions;
 using BookingApp.Domain.Queries;
 using BookingApp.UnitTests.Base;
-using BookingApp.UnitTests.Helpers;
 
 using MediatR;
 
@@ -35,7 +34,6 @@ public class BookingQueryHandlerTests : BaseHandlerTest<BookingQuery, BookingQue
     public async Task HandleShouldReturnBooking()
     {
         // Arrange
-        var dbContext = DbContextHelper.CreateTestDb();
         var room = new Room
         {
             Name = Guid.NewGuid().ToString(),
@@ -56,8 +54,8 @@ public class BookingQueryHandlerTests : BaseHandlerTest<BookingQuery, BookingQue
             Comment = Guid.NewGuid().ToString()
         };
 
-        await dbContext.AddAsync(booking);
-        await dbContext.SaveChangesAsync();
+        await DbContext.AddAsync(booking);
+        await DbContext.SaveChangesAsync();
 
         var query = new BookingQuery
         {
