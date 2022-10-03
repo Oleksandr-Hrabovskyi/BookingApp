@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 using BookingApp.Contracts.Database;
 using BookingApp.Contracts.Http;
-using BookingApp.Domain.Database;
 using BookingApp.Domain.Exceptions;
 using BookingApp.Domain.Queries;
+using BookingApp.UnitTests.Base;
 using BookingApp.UnitTests.Helpers;
 
 using MediatR;
@@ -19,14 +19,15 @@ using Shouldly;
 
 namespace BookingApp.UnitTests.Queries;
 
-public class BookingQueryHandlerTests
+public class BookingQueryHandlerTests : BaseHandlerTest<BookingQuery, BookingQueryResult>
 {
-    private readonly BookingDbContext _dbContext;
-    private readonly IRequestHandler<BookingQuery, BookingQueryResult> _handler;
-    public BookingQueryHandlerTests()
+    public BookingQueryHandlerTests() : base()
     {
-        _dbContext = DbContextHelper.CreateTestDb();
-        _handler = new BookingQueryHandler(_dbContext,
+    }
+
+    protected override IRequestHandler<BookingQuery, BookingQueryResult> CreateHandler()
+    {
+        return new BookingQueryHandler(DbContext,
             new Mock<ILogger<BookingQueryHandler>>().Object);
     }
 
@@ -35,13 +36,15 @@ public class BookingQueryHandlerTests
     {
         // Arrange
         var dbContext = DbContextHelper.CreateTestDb();
-        // var roomId = new Random().Next(1, 100);
         var room = new Room
         {
             Name = Guid.NewGuid().ToString(),
             Type = Guid.NewGuid().ToString(),
             Price = new Random().Next(1000, 2500)
         };
+        await DbContext.Room.AddAsync(room);
+        await DbContext.SaveChangesAsync();
+
         var booking = new Booking
         {
             FirstName = Guid.NewGuid().ToString(),
@@ -62,7 +65,7 @@ public class BookingQueryHandlerTests
         };
 
         // Act
-        var result = await _handler.Handle(query, CancellationToken.None);
+        var result = await Handler.Handle(query, CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
@@ -90,7 +93,7 @@ public class BookingQueryHandlerTests
         try
         {
             // Act
-            await _handler.Handle(query, CancellationToken.None);
+            await Handler.Handle(query, CancellationToken.None);
         }
         catch (BookingException be) when (be.ErrorCode == ErrorCode.BookingNotFound
             && be.Message == $"Booking {bookingId} not found")
@@ -99,10 +102,4 @@ public class BookingQueryHandlerTests
             // ignore
         }
     }
-
-    // public void Dispose()
-    // {
-    //     _dbContext.Database.EnsureDeleted();
-    //     _dbContext.Dispose();
-    // }
 }

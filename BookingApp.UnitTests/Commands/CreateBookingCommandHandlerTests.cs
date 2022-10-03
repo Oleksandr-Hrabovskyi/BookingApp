@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 using BookingApp.Contracts.Database;
 using BookingApp.Contracts.Http;
 using BookingApp.Domain.Commands;
-using BookingApp.Domain.Database;
 using BookingApp.Domain.Exceptions;
-using BookingApp.UnitTests.Helpers;
+using BookingApp.UnitTests.Base;
 
 using MediatR;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -20,15 +18,15 @@ using Shouldly;
 
 namespace BookingApp.UnitTests.Commands;
 
-public class CreateBookingCommandHandlerTests
+public class CreateBookingCommandHandlerTests : BaseHandlerTest<CreateBookingCommand, CreateBookingCommandResult>
 {
-    private readonly BookingDbContext _dbContext;
-    private readonly IRequestHandler<CreateBookingCommand, CreateBookingCommandResult> _handler;
-    public CreateBookingCommandHandlerTests()
+    public CreateBookingCommandHandlerTests() : base()
     {
-        _dbContext = DbContextHelper.CreateTestDb();
-        _dbContext.Database.Migrate();
-        _handler = new CreateBookingCommandHandler(_dbContext,
+    }
+
+    protected override IRequestHandler<CreateBookingCommand, CreateBookingCommandResult> CreateHandler()
+    {
+        return new CreateBookingCommandHandler(DbContext,
             new Mock<ILogger<CreateBookingCommandHandler>>().Object);
     }
 
@@ -43,6 +41,9 @@ public class CreateBookingCommandHandlerTests
             Price = new Random().Next(1000, 2500)
         };
 
+        await DbContext.Room.AddAsync(room);
+        await DbContext.SaveChangesAsync();
+
         var command = new CreateBookingCommand
         {
             FirstName = Guid.NewGuid().ToString(),
@@ -54,7 +55,7 @@ public class CreateBookingCommandHandlerTests
         };
 
         //Act
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await Handler.Handle(command, CancellationToken.None);
 
         //Assert
         result.ShouldNotBeNull();
@@ -69,7 +70,7 @@ public class CreateBookingCommandHandlerTests
     public async Task HandleShouldThrowExceptionIfNoRoom()
     {
         //Arrange
-        var roomId = -1;
+        var roomId = 1;
         var command = new CreateBookingCommand
         {
             FirstName = Guid.NewGuid().ToString(),
@@ -83,20 +84,13 @@ public class CreateBookingCommandHandlerTests
         try
         {
             //Act
-            await _handler.Handle(command, CancellationToken.None);
+            await Handler.Handle(command, CancellationToken.None);
         }
         catch (BookingException be) when (be.ErrorCode == ErrorCode.RoomNotFound &&
-            be.Message == $"Room {roomId} not found")
+            be.Message == $"Room {command.RoomId} not found")
         {
             // Assert
             // ignore
         }
     }
-
-
-    // public void Dispose()
-    // {
-    //     _dbContext.Database.EnsureDeleted();
-    //     _dbContext.Dispose();
-    // }
 }

@@ -10,9 +10,14 @@ internal static class DbContextHelper
 {
     public static BookingDbContext CreateTestDb()
     {
-        var tempfile = Path.GetTempFileName();
+        var tempFile = Path.GetTempFileName();
+        return CreateTestDb($"Data Source={tempFile};");
+    }
+
+    public static BookingDbContext CreateTestDb(string connectionString)
+    {
         var options = new DbContextOptionsBuilder<BookingDbContext>()
-            .UseSqlite("Data Source={tempfile};")
+            .UseSqlite(connectionString)
             .Options;
 
         var dbContext = new BookingDbContext(options);

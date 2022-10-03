@@ -2,14 +2,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-using BookingApp.Contracts.Database;
 using BookingApp.Domain.Commands;
-using BookingApp.Domain.Database;
-using BookingApp.UnitTests.Helpers;
+using BookingApp.UnitTests.Base;
 
 using MediatR;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -18,15 +15,16 @@ using Shouldly;
 
 namespace BookingApp.UnitTests.Commands;
 
-public class CreateRoomCommandHandlerTests
+public class CreateRoomCommandHandlerTests : BaseHandlerTest<CreateRoomCommand, CreateRoomCommandResult>
 {
-    private readonly BookingDbContext _dbContext;
-    private readonly IRequestHandler<CreateRoomCommand, CreateRoomCommandResult> _handler;
-    public CreateRoomCommandHandlerTests()
+    private new readonly IRequestHandler<CreateRoomCommand, CreateRoomCommandResult> Handler;
+    public CreateRoomCommandHandlerTests() : base()
     {
-        _dbContext = DbContextHelper.CreateTestDb();
-        _dbContext.Database.Migrate();
-        _handler = new CreateRoomCommandHandler(_dbContext,
+    }
+
+    protected override IRequestHandler<CreateRoomCommand, CreateRoomCommandResult> CreateHandler()
+    {
+        return new CreateRoomCommandHandler(DbContext,
             new Mock<ILogger<CreateRoomCommandHandler>>().Object);
     }
 
@@ -34,26 +32,6 @@ public class CreateRoomCommandHandlerTests
     public async Task HandleShouldAddRoomToBooking()
     {
         // Arrange
-        var room = new Room
-        {
-            Name = Guid.NewGuid().ToString(),
-            Type = Guid.NewGuid().ToString(),
-            Price = new Random().Next(1000, 2500)
-        };
-        var booking = new Booking
-        {
-            FirstName = Guid.NewGuid().ToString(),
-            LastName = Guid.NewGuid().ToString(),
-            PhoneNumber = "+380991234567",
-            RoomId = room.Id,
-            CheckInDate = new DateTime(2022, 9, 20),
-            CheckOutDate = new DateTime(2022, 9, 21),
-            Comment = Guid.NewGuid().ToString()
-        };
-
-        await _dbContext.Booking.AddAsync(booking);
-        await _dbContext.SaveChangesAsync();
-
         var command = new CreateRoomCommand
         {
             Name = Guid.NewGuid().ToString(),
@@ -61,9 +39,8 @@ public class CreateRoomCommandHandlerTests
             Price = new Random().Next(1000, 2500)
         };
 
-
         // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await Handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Room.ShouldNotBeNull();
@@ -73,5 +50,4 @@ public class CreateRoomCommandHandlerTests
         result.Room.Price.ShouldBe(command.Price);
 
     }
-
 }

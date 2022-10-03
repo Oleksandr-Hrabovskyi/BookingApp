@@ -50,6 +50,7 @@ builder.Services.AddDomainServices((sp, options) =>
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateBookingRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateRoomRequestValidator>();
 
 var app = builder.Build();
 
