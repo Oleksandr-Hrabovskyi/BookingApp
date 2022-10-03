@@ -12,16 +12,18 @@ This repository describe Booking Application API
 ## Models
 ### Class Booking:
 
-- first name;
-- last name;
-- phone number; 
-- room ID; 
-- check in date; 
-- check out date;
+- Id;
+- firstName;
+- lastName;
+- phoneNumber; 
+- roomId; 
+- checkInDate; 
+- checkOutDate;
 - comment.
   
 ### Class Room:
 
+- Id;
 - name;
 - type;
 - price.
