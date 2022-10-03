@@ -56,6 +56,7 @@ public class BookingController : BaseController
                     LastName = booking.LastName,
                     PhoneNumber = booking.PhoneNumber,
                     RoomId = booking.RoomId,
+                    Room = booking.Room,
                     CheckInDate = booking.CheckInDate,
                     CheckOutDate = booking.CheckOutDate
                 }
@@ -63,7 +64,19 @@ public class BookingController : BaseController
             return Ok(response);
         }, cancellationToken);
 
+    /// <summary>
+    /// Create Booking
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken">Cancellation Token</param>
+    /// <returns>Booking ID</returns>
+    /// <response code="200">Returns booking ID</response>
+    /// <response code="404">Booking not found</response>
+    /// <response code="500">Internal Server Error</response>
     [HttpPut]
+    [ProducesResponseType(typeof(CreateBookingResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse), 404)]
+    [ProducesResponseType(typeof(ErrorResponse), 500)]
     public Task<IActionResult> CreateBooking([FromBody] CreateBookingRequest request,
         CancellationToken cancellationToken) =>
         SaveExecute(async () =>

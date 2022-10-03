@@ -37,7 +37,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         Version = "v1",
         Title = "BookingApp API",
-        Description = "Web APi to create bookings with rooms"
+        Description = "WEB API to create bookings/rooms"
     });
 
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
