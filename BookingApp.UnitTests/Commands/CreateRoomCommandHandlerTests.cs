@@ -29,7 +29,7 @@ public class CreateRoomCommandHandlerTests : BaseHandlerTest<CreateRoomCommand, 
     }
 
     [Fact]
-    public async Task HandleShouldAddRoomToBooking()
+    public async Task HandleShouldCreateRoom()
     {
         // Arrange
         var command = new CreateRoomCommand
@@ -48,5 +48,6 @@ public class CreateRoomCommandHandlerTests : BaseHandlerTest<CreateRoomCommand, 
         result.Room.Name.ShouldBe(command.Name);
         result.Room.Type.ShouldBe(command.Type);
         result.Room.Price.ShouldBe(command.Price);
+
     }
 }

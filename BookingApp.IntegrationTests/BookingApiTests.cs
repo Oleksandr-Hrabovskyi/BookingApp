@@ -87,8 +87,8 @@ public class BookingApiTests
 
     [Theory]
     [InlineData(null, "abcd")]
-    [InlineData("MmpaGdmtmAyH16FxrvcDlsr5yg4F2MjAyzqxgwkWS9rkYhIL0OXoxBBIN7pG2wZUISfUOvJwfLBO3vLDfFOMfSoI0kwWRGnuUbyhzNTXlSGrwjruFNB9DPMo9quhVLRenUN9Z9e6QiumsvsfGW6vOh39kqcB2YBb73qZdFElNXaa0KXXWDv30zZYwGBGYmKKt0u9mW6ZW8aHpzm7pqq97RGtDAJamjoWQVhow6zqVG2jTgoMGC3pxUf7h5DdTuLZ", "abcd")]
-    [InlineData("abcd", "0scB2jGXCGikDkNZdkSUYRPsztngMi9GoxO05ujplnwXiXmd9R6scb9YHZDiFERd6W7PEVcaovadVA2LWT6uJLopq0t1vlQNsh8xByJlzMS3KjsR5IRQZj9DDyS65WuOWfzo5B6Ma68Esyw2NLQIWeDXnOt7GEQ1QX68IPf7xS2Xsg85jclNeRCB2Bgl1phZnwUHsikyIpR5j6ZFhCkngOjwDUZ2Xx3sTEYBqxVcPtNBU0dWGGmSBqpoJnO2DeCBj4")]
+    [InlineData("s8KgXCD1R1fMwrIUYATxhxTaBECEkuXQiOgF1D2Sez59npgN6q2zvxKd6699sP4TPBuPnSXqSMny402ftsyNWYIXQlbJ0KKQA9jUNH0BLAKzmkXEbs4FFib7rPO7CN4PaYeWoWVXyVdYY76iqJCKwp0Er1q6pmHSUAei6atUUdvD3mGjE2ZtxEUKx2ZmvolUXvub8vthKODzEU777gIlLZSuacMfGTqPV6GYm4lHjrqC3hYOGDMdV7NsFGmAEA13", "abcd")]
+    [InlineData("abcd", "s8KgXCD1R1fMwrIUYATxhxTaBECEkuXQiOgF1D2Sez59npgN6q2zvxKd6699sP4TPBuPnSXqSMny402ftsyNWYIXQlbJ0KKQA9jUNH0BLAKzmkXEbs4FFib7rPO7CN4PaYeWoWVXyVdYY76iqJCKwp0Er1q6pmHSUAei6atUUdvD3mGjE2ZtxEUKx2ZmvolUXvub8vthKODzEU777gIlLZSuacMfGTqPV6GYm4lHjrqC3hYOGDMdV7NsFGmAEA13")]
     public async Task CreateBookingShouldReturnBadRequest(string firstName, string lastName)
     {
         // Arrange
@@ -107,7 +107,7 @@ public class BookingApiTests
         {
             FirstName = firstName,
             LastName = lastName,
-            PhoneNumber = Guid.NewGuid().ToString(),
+            PhoneNumber = "+380991234567",
             RoomId = roomResult.Id,
             CheckInDate = new DateTime(2022, 9, 20),
             CheckOutDate = new DateTime(2022, 9, 21),
