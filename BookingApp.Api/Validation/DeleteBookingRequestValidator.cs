@@ -8,6 +8,6 @@ internal class DeleteBookingRequestValidator : AbstractValidator<DeleteBookingRe
 {
     public DeleteBookingRequestValidator()
     {
-        RuleFor(x => x.BookingId).NotEmpty();
+        RuleFor(x => x.BookingId).NotNull();
     }
 }
