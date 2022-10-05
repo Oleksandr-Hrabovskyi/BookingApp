@@ -108,12 +108,22 @@ public class BookingController : BaseController
             return Created($"http://{Request.Host}/api/booking.com/{response.Id}", response);
         }, cancellationToken);
 
+    /// <summary>
+    /// Delete Booking
+    /// </summary>
+    /// <param name="bookingId"></param>
+    /// <param name="cancellationToken">Cancellation Token</param>
+    /// <response code="204">204 No Content</response>
+    /// <response code="404">Booking not found</response>
+    /// <response code="500">Internal Server Error</response>
     [HttpDelete("{bookingId}")]
+    [ProducesResponseType(typeof(DeleteBookingResponse), 204)]
+    [ProducesResponseType(typeof(ErrorResponse), 404)]
+    [ProducesResponseType(typeof(ErrorResponse), 500)]
     public Task<IActionResult> DeleteBooking([FromRoute] int bookingId,
         CancellationToken cancellationToken) =>
         SaveExecute(async () =>
         {
-
             var command = new DeleteBookingCommand
             {
                 BookingId = bookingId
