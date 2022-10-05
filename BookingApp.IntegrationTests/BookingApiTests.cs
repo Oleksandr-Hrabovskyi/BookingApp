@@ -117,7 +117,7 @@ public class BookingApiTests
         try
         {
             // Act
-            using var response = await _client.PutAsJsonAsync("api/booking", request);
+            await _client.PutAsJsonAsync("api/booking", request);
         }
         catch (Microsoft.EntityFrameworkCore.DbUpdateException dbe)
         {

@@ -35,10 +35,10 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
 {
     private readonly BookingDbContext _dbContext;
 
-    public CreateBookingCommandHandler(BookingDbContext dBContext,
+    public CreateBookingCommandHandler(BookingDbContext dbContext,
         ILogger<CreateBookingCommandHandler> logger) : base(logger)
     {
-        _dbContext = dBContext;
+        _dbContext = dbContext;
     }
 
     protected override async Task<CreateBookingCommandResult> HandleInternal(CreateBookingCommand request,

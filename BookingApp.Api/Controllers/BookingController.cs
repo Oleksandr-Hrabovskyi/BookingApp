@@ -29,7 +29,7 @@ public class BookingController : BaseController
     /// <param name="bookingId">Booking ID</param>
     /// <param name="cancellationToken">Cancellation Token</param>
     /// <returns>Booking with Room ID</returns>
-    /// <response code="200">Returns booking with Romm ID</response>
+    /// <response code="200">Returns Booking</response>
     /// <response code="404">Booking not found</response>
     /// <response code="500">Internal Server Error</response>
     [HttpGet("{bookingId}")]
@@ -108,4 +108,18 @@ public class BookingController : BaseController
             return Created($"http://{Request.Host}/api/booking.com/{response.Id}", response);
         }, cancellationToken);
 
+    [HttpDelete("{bookingId}")]
+    public Task<IActionResult> DeleteBooking([FromRoute] int bookingId,
+        CancellationToken cancellationToken) =>
+        SaveExecute(async () =>
+        {
+
+            var command = new DeleteBookingCommand
+            {
+                BookingId = bookingId
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+            return NoContent();
+        }, cancellationToken);
 }

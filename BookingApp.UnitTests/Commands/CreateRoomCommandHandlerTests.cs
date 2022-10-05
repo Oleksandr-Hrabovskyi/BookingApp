@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 
 using BookingApp.Domain.Commands;
 using BookingApp.UnitTests.Base;
+using BookingApp.UnitTests.Helpers;
 
 using MediatR;
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -32,6 +34,7 @@ public class CreateRoomCommandHandlerTests : BaseHandlerTest<CreateRoomCommand, 
     public async Task HandleShouldCreateRoom()
     {
         // Arrange
+        var dbContext = DbContextHelper.CreateTestDb(DbContext.Database.GetDbConnection().ConnectionString);
         var command = new CreateRoomCommand
         {
             Name = Guid.NewGuid().ToString(),
@@ -49,5 +52,13 @@ public class CreateRoomCommandHandlerTests : BaseHandlerTest<CreateRoomCommand, 
         result.Room.Type.ShouldBe(command.Type);
         result.Room.Price.ShouldBe(command.Price);
 
+        // try
+        // {
+        //     await Handler.Handle(command, CancellationToken.None);
+        // }
+        // catch (NullReferenceException)
+        // {
+
+        // }
     }
 }
