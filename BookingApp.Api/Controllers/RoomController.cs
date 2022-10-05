@@ -9,6 +9,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
+using RoomApp.Domain.Queries;
+
 namespace BookingApp.Api.Controllers;
 
 [ApiController]
@@ -21,6 +23,43 @@ public class RoomController : BaseController
     {
         _mediator = mediator;
     }
+
+    /// <summary>
+    /// Returns room by id
+    /// </summary>
+    /// <param name="roomId">Booking ID</param>
+    /// <param name="cancellationToken">Cancellation Token</param>
+    /// <returns>Room</returns>
+    /// <response code="200">Returns Room</response>
+    /// <response code="404">Room not found</response>
+    /// <response code="500">Internal Server Error</response>
+    [HttpGet("{roomId}")]
+    [ProducesResponseType(typeof(RoomResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse), 404)]
+    [ProducesResponseType(typeof(ErrorResponse), 500)]
+    public Task<IActionResult> GetRoom([FromRoute] int roomId,
+        CancellationToken cancellationToken) =>
+        SaveExecute(async () =>
+        {
+            var query = new RoomQuery
+            {
+                RoomId = roomId
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
+            var room = result.Room;
+            var response = new RoomResponse
+            {
+                Room = new Contracts.Database.Room
+                {
+                    Id = room.Id,
+                    Name = room.Name,
+                    Type = room.Type,
+                    Price = room.Price
+                }
+            };
+            return Ok(response);
+        }, cancellationToken);
 
     /// <summary>
     /// Create Room

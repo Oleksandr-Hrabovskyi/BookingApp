@@ -7,12 +7,14 @@ This repository describe Booking Application API
 1. As a user I want to create booking a room so that to record which rooms are occupied for reservation
 2. As a user I want to create room so that I have up to date about rooms
 3. As a user I want to see booking so that I can see the current booking information
-4. As a user I want to delete booking so that I can keep the booking information up to date
+4. As a user I want to see room so that I can see the current room information
+5. As a user I want to delete booking so that I can keep the booking information up to date
+6. As a user I want to delete room so that I can keep the room information up to date
 
 ## Models
 ### Class Booking:
 
-- Id;
+- id;
 - firstName;
 - lastName;
 - phoneNumber; 
@@ -23,7 +25,7 @@ This repository describe Booking Application API
   
 ### Class Room:
 
-- Id;
+- id;
 - name;
 - type;
 - price.
