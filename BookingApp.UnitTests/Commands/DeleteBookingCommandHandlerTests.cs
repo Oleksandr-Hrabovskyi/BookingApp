@@ -105,10 +105,4 @@ public class DeleteBookingCommandHandlerTests : BaseHandlerTest<DeleteBookingCom
         result.ShouldNotBeNull();
         result.DeleteSuccess.ShouldBeFalse();
     }
-
-    public new void Dispose()
-    {
-        DbContext.Database.EnsureDeleted();
-        DbContext.Dispose();
-    }
 }

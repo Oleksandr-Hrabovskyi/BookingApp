@@ -79,10 +79,4 @@ public class DeleteRoomCommandHandlerTests : BaseHandlerTest<DeleteRoomCommand, 
         result.ShouldNotBeNull();
         result.DeleteSuccess.ShouldBeFalse();
     }
-
-    public new void Dispose()
-    {
-        DbContext.Database.EnsureDeleted();
-        DbContext.Dispose();
-    }
 }
