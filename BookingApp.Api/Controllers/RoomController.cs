@@ -25,7 +25,7 @@ public class RoomController : BaseController
     }
 
     /// <summary>
-    /// Returns room by id
+    /// Returns Room by id
     /// </summary>
     /// <param name="roomId">Booking ID</param>
     /// <param name="cancellationToken">Cancellation Token</param>

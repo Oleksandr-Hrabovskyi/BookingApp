@@ -19,7 +19,6 @@ namespace BookingApp.UnitTests.Commands;
 
 public class CreateRoomCommandHandlerTests : BaseHandlerTest<CreateRoomCommand, CreateRoomCommandResult>
 {
-    private new readonly IRequestHandler<CreateRoomCommand, CreateRoomCommandResult> Handler;
     public CreateRoomCommandHandlerTests() : base()
     {
     }

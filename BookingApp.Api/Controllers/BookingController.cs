@@ -24,7 +24,7 @@ public class BookingController : BaseController
         _mediator = mediator;
     }
     /// <summary>
-    /// Returns booking by id
+    /// Returns Booking by id
     /// </summary>
     /// <param name="bookingId">Booking ID</param>
     /// <param name="cancellationToken">Cancellation Token</param>
