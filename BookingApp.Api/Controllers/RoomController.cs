@@ -100,4 +100,29 @@ public class RoomController : BaseController
             };
             return Created($"http://{Request.Host}/api/room.com/{response.Id}", response);
         }, cancellationToken);
+
+    /// <summary>
+    /// Delete Room
+    /// </summary>
+    /// <param name="roomId"></param>
+    /// <param name="cancellationToken">Cancellation Token</param>
+    /// <response code="204">204 No Content</response>
+    /// <response code="404">Room not found</response>
+    /// <response code="500">Internal Server Error</response>
+    [HttpDelete("{roomId}")]
+    [ProducesResponseType(typeof(DeleteRoomResponse), 204)]
+    [ProducesResponseType(typeof(ErrorResponse), 404)]
+    [ProducesResponseType(typeof(ErrorResponse), 500)]
+    public Task<IActionResult> DeleteRoom([FromRoute] int roomId,
+        CancellationToken cancellationToken) =>
+        SaveExecute(async () =>
+        {
+            var command = new DeleteRoomCommand
+            {
+                RoomId = roomId
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+            return NoContent();
+        }, cancellationToken);
 }
