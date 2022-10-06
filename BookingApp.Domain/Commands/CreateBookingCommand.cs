@@ -7,6 +7,7 @@ using BookingApp.Contracts.Http;
 using BookingApp.Domain.Base;
 using BookingApp.Domain.Database;
 using BookingApp.Domain.Exceptions;
+using BookingApp.Domain.Helpers;
 
 using MediatR;
 
@@ -30,16 +31,6 @@ public class CreateBookingCommandResult
 {
     public Booking Booking { get; init; }
 }
-
-// public class GetBookings
-// {
-//     private readonly GetAllBookingsQueryResult _allBookings;
-
-//     public IEnumerable<Booking> GetAllBookings()
-//     {
-//         return _allBookings.Bookings;
-//     }
-// }
 
 internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, CreateBookingCommandResult>
 {
@@ -75,17 +66,26 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
             Comment = request.Comment
         };
 
+        if ((string.IsNullOrEmpty(booking.FirstName) ||
+            string.IsNullOrEmpty(booking.LastName) ||
+            string.IsNullOrEmpty(booking.PhoneNumber) ||
+            booking.CheckOutDate <= booking.CheckInDate))
+        {
+            throw new BookingException(ErrorCode.BadRequest, "Invalid data for booking");
+        }
+        var validator = new ValidationBooking(_dbContext);
+        if (await validator.BookingValidate(booking) == false)
+        {
+
+        }
+
         await _dbContext.AddAsync(booking, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
-
-        if (booking.CheckOutDate <= booking.CheckInDate)
-        {
-            throw new BookingException(ErrorCode.BadRequest, $"Date is incorrect");
-        }
 
         return new CreateBookingCommandResult
         {
             Booking = booking
         };
+
     }
 }

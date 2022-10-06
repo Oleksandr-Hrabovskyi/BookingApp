@@ -2,8 +2,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using BookingApp.Contracts.Database;
+using BookingApp.Contracts.Http;
 using BookingApp.Domain.Base;
 using BookingApp.Domain.Database;
+using BookingApp.Domain.Exceptions;
 
 using MediatR;
 
@@ -41,6 +43,13 @@ internal class CreateRoomCommandHandler : BaseHandler<CreateRoomCommand, CreateR
             Type = request.Type,
             Price = request.Price
         };
+
+        if ((string.IsNullOrEmpty(room.Name) ||
+            string.IsNullOrEmpty(room.Type) ||
+            room.Price <= 0))
+        {
+            throw new BookingException(ErrorCode.BadRequest, "Invalid data for room");
+        }
         await _dbContext.AddAsync(room, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
