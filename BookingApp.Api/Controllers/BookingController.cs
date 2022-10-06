@@ -18,7 +18,6 @@ namespace BookingApp.Api.Controllers;
 public class BookingController : BaseController
 {
     private readonly IMediator _mediator;
-
     public BookingController(IMediator mediator, ILogger<BookingController> logger) : base(logger)
     {
         _mediator = mediator;
@@ -63,6 +62,17 @@ public class BookingController : BaseController
             };
             return Ok(response);
         }, cancellationToken);
+
+    /// <summary>
+    /// Get all Bookings
+    /// </summary>
+    /// <response code="200">Returns all bookings</response>
+    [HttpGet("allBookings")]
+    public async Task<IActionResult> GetAllBookings()
+    {
+        var result = await _mediator.Send(new GetAllBookingsQuery());
+        return Ok(result);
+    }
 
     /// <summary>
     /// Create Booking

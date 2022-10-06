@@ -51,7 +51,7 @@ public class DeleteRoomCommandHandlerTests : BaseHandlerTest<DeleteRoomCommand, 
 
         //Assert
         result.ShouldNotBeNull();
-        result.DeleteSuccess.ShouldBeTrue();
+        result.DeleteResult.ShouldBeTrue();
     }
 
     [Fact]
@@ -77,6 +77,6 @@ public class DeleteRoomCommandHandlerTests : BaseHandlerTest<DeleteRoomCommand, 
 
         //Assert
         result.ShouldNotBeNull();
-        result.DeleteSuccess.ShouldBeFalse();
+        result.DeleteResult.ShouldBeFalse();
     }
 }

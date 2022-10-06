@@ -64,7 +64,7 @@ public class DeleteBookingCommandHandlerTests : BaseHandlerTest<DeleteBookingCom
 
         //Assert
         result.ShouldNotBeNull();
-        result.DeleteSuccess.ShouldBeTrue();
+        result.DeleteResult.ShouldBeTrue();
     }
 
     [Fact]
@@ -103,6 +103,6 @@ public class DeleteBookingCommandHandlerTests : BaseHandlerTest<DeleteBookingCom
 
         //Assert
         result.ShouldNotBeNull();
-        result.DeleteSuccess.ShouldBeFalse();
+        result.DeleteResult.ShouldBeFalse();
     }
 }

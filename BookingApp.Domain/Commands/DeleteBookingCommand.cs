@@ -19,7 +19,7 @@ public class DeleteBookingCommand : IRequest<DeleteBookingCommandResult>
 
 public class DeleteBookingCommandResult
 {
-    public bool DeleteSuccess { get; init; }
+    public bool DeleteResult { get; init; }
 }
 
 internal class DeleteBookingCommandHandler : BaseHandler<DeleteBookingCommand, DeleteBookingCommandResult>
@@ -42,7 +42,7 @@ internal class DeleteBookingCommandHandler : BaseHandler<DeleteBookingCommand, D
         {
             return new DeleteBookingCommandResult
             {
-                DeleteSuccess = false
+                DeleteResult = false
             };
             throw new BookingException(ErrorCode.BookingNotFound, $"Booking {bookingId} not found");
         }
@@ -51,7 +51,7 @@ internal class DeleteBookingCommandHandler : BaseHandler<DeleteBookingCommand, D
         await _dbContext.SaveChangesAsync(cancellationToken);
         return new DeleteBookingCommandResult
         {
-            DeleteSuccess = true
+            DeleteResult = true
         };
     }
 }

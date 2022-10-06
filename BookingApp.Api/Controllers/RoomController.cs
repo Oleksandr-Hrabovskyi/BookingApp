@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using BookingApp.Contracts.Http;
 using BookingApp.Domain.Commands;
+using BookingApp.Domain.Queries;
 
 using MediatR;
 
@@ -60,6 +61,17 @@ public class RoomController : BaseController
             };
             return Ok(response);
         }, cancellationToken);
+
+    /// <summary>
+    /// Get all Rooms
+    /// </summary>
+    /// <response code="200">Returns all rooms</response>
+    [HttpGet("allRooms")]
+    public async Task<IActionResult> GetAllRooms()
+    {
+        var result = await _mediator.Send(new GetAllRoomsQuery());
+        return Ok(result);
+    }
 
     /// <summary>
     /// Create Room

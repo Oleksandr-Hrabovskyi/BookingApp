@@ -19,7 +19,7 @@ public class DeleteRoomCommand : IRequest<DeleteRoomCommandResult>
 
 public class DeleteRoomCommandResult
 {
-    public bool DeleteSuccess { get; init; }
+    public bool DeleteResult { get; init; }
 }
 
 internal class DeleteRoomCommandHandler : BaseHandler<DeleteRoomCommand, DeleteRoomCommandResult>
@@ -42,7 +42,7 @@ internal class DeleteRoomCommandHandler : BaseHandler<DeleteRoomCommand, DeleteR
         {
             return new DeleteRoomCommandResult
             {
-                DeleteSuccess = false
+                DeleteResult = false
             };
             throw new BookingException(ErrorCode.RoomNotFound, $"Room {roomId} not found");
         }
@@ -51,7 +51,7 @@ internal class DeleteRoomCommandHandler : BaseHandler<DeleteRoomCommand, DeleteR
         await _dbContext.SaveChangesAsync(cancellationToken);
         return new DeleteRoomCommandResult
         {
-            DeleteSuccess = true
+            DeleteResult = true
         };
     }
 }

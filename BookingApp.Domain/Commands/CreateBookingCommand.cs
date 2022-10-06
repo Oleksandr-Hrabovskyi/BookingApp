@@ -31,6 +31,16 @@ public class CreateBookingCommandResult
     public Booking Booking { get; init; }
 }
 
+// public class GetBookings
+// {
+//     private readonly GetAllBookingsQueryResult _allBookings;
+
+//     public IEnumerable<Booking> GetAllBookings()
+//     {
+//         return _allBookings.Bookings;
+//     }
+// }
+
 internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, CreateBookingCommandResult>
 {
     private readonly BookingDbContext _dbContext;
@@ -64,8 +74,14 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
             CheckOutDate = request.CheckOutDate.ToUniversalTime(),
             Comment = request.Comment
         };
+
         await _dbContext.AddAsync(booking, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
+
+        if (booking.CheckOutDate <= booking.CheckInDate)
+        {
+            throw new BookingException(ErrorCode.BadRequest, $"Date is incorrect");
+        }
 
         return new CreateBookingCommandResult
         {
