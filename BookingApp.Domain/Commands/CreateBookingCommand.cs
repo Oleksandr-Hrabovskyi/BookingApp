@@ -76,7 +76,6 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
         var validator = new ValidationBooking(_dbContext);
         if (await validator.BookingValidate(booking) == false)
         {
-
         }
 
         await _dbContext.AddAsync(booking, cancellationToken);
@@ -86,6 +85,5 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
         {
             Booking = booking
         };
-
     }
 }

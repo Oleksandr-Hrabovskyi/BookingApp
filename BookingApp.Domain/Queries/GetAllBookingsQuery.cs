@@ -37,7 +37,6 @@ internal class GetAllBookingsQueryHandler : BaseHandler<GetAllBookingsQuery, Get
         CancellationToken cancellationToken)
     {
         var bookings = await _dbContext.Booking.ToListAsync(cancellationToken);
-        // var allBookings = bookings.ToList();
         return new GetAllBookingsQueryResult
         {
             Bookings = bookings

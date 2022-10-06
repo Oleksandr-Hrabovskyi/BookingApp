@@ -37,7 +37,6 @@ internal class GetAllRoomsQueryHandler : BaseHandler<GetAllRoomsQuery, GetAllRoo
         CancellationToken cancellationToken)
     {
         var rooms = await _dbContext.Room.ToListAsync(cancellationToken);
-        // var allBookings = rooms.ToList();
         return new GetAllRoomsQueryResult
         {
             Rooms = rooms
