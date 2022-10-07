@@ -57,7 +57,8 @@ public class BookingController : BaseController
                     RoomId = booking.RoomId,
                     Room = booking.Room,
                     CheckInDate = booking.CheckInDate,
-                    CheckOutDate = booking.CheckOutDate
+                    CheckOutDate = booking.CheckOutDate,
+                    Comment = booking.Comment
                 }
             };
             return Ok(response);

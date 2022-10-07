@@ -40,10 +40,6 @@ internal class DeleteRoomCommandHandler : BaseHandler<DeleteRoomCommand, DeleteR
         var room = await _dbContext.Room.FindAsync(new object[] { roomId }, cancellationToken);
         if (room == null || room.Id != roomId)
         {
-            return new DeleteRoomCommandResult
-            {
-                DeleteResult = false
-            };
             throw new BookingException(ErrorCode.RoomNotFound, $"Room {roomId} not found");
         }
 

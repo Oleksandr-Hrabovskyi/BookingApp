@@ -74,16 +74,14 @@ internal class CreateBookingCommandHandler : BaseHandler<CreateBookingCommand, C
             throw new BookingException(ErrorCode.BadRequest, "Invalid data for booking");
         }
         var validator = new ValidationBooking(_dbContext);
-        if (await validator.BookingValidate(booking) == false)
-        {
-        }
-
+        if (await validator.BookingValidate(booking) == false) { }
         await _dbContext.AddAsync(booking, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
-
         return new CreateBookingCommandResult
         {
             Booking = booking
         };
+
+
     }
 }
