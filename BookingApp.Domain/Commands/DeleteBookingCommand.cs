@@ -40,10 +40,6 @@ internal class DeleteBookingCommandHandler : BaseHandler<DeleteBookingCommand, D
         var booking = await _dbContext.Booking.FindAsync(new object[] { bookingId }, cancellationToken);
         if (booking == null || booking.Id != bookingId)
         {
-            return new DeleteBookingCommandResult
-            {
-                DeleteResult = false
-            };
             throw new BookingException(ErrorCode.BookingNotFound, $"Booking {bookingId} not found");
         }
 
