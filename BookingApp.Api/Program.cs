@@ -59,9 +59,9 @@ builder.Services.AddDomainServices((sp, options) =>
         .UseLoggerFactory(loggerFactory);
 });
 
-// builder.Services.AddFluentValidationAutoValidation();
-// builder.Services.AddScoped<IValidator<CreateBookingRequest>, CreateBookingRequestValidator>();
-// builder.Services.AddScoped<IValidator<CreateRoomRequest>, CreateRoomRequestValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddScoped<IValidator<CreateBookingRequest>, CreateBookingRequestValidator>();
+builder.Services.AddScoped<IValidator<CreateRoomRequest>, CreateRoomRequestValidator>();
 
 var app = builder.Build();
 
